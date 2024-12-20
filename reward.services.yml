@@ -2,3 +2,9 @@ services:
   plugin.manager.reward_type:
     class: Drupal\reward\RewardTypePluginManager
     parent: default_plugin_manager
+
+  reward.event_subscriber:
+    class: Drupal\reward\EventSubscriber\RewardSubscriber
+    arguments: ['@database']
+    tags:
+      - { name: event_subscriber }
