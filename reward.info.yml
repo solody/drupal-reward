@@ -1,0 +1,7 @@
+name: 'Reward'
+type: module
+description: 'Provides a reward system.'
+package: Custom
+core_version_requirement: ^10 || ^11
+dependencies:
+  - task:task
