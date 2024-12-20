@@ -25,6 +25,8 @@ use Drupal\user\EntityOwnerTrait;
  *     singular = "@count rewards",
  *     plural = "@count rewards",
  *   ),
+ *   bundle_label = @Translation("Reward type"),
+ *   bundle_plugin_type = "reward_type",
  *   handlers = {
  *     "list_builder" = "Drupal\reward\RewardListBuilder",
  *     "views_data" = "Drupal\views\EntityViewsData",
@@ -45,6 +47,7 @@ use Drupal\user\EntityOwnerTrait;
  *   admin_permission = "administer reward",
  *   entity_keys = {
  *     "id" = "id",
+ *     "bundle" = "type",
  *     "langcode" = "langcode",
  *     "label" = "label",
  *     "uuid" = "uuid",
@@ -52,7 +55,8 @@ use Drupal\user\EntityOwnerTrait;
  *   },
  *   links = {
  *     "collection" = "/admin/reward/reward",
- *     "add-form" = "/admin/reward/reward/add",
+ *     "add-form" = "/admin/reward/reward/add",/{type}",
+ *      "add-page" = "/admin/reward/reward/add",
  *     "canonical" = "/admin/reward/reward/{reward}",
  *     "edit-form" = "/admin/reward/reward/{reward}/edit",
  *     "delete-form" = "/admin/reward/reward/{reward}/delete",

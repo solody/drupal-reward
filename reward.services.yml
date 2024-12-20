@@ -1,0 +1,4 @@
+services:
+  plugin.manager.reward_type:
+    class: Drupal\reward\RewardTypePluginManager
+    parent: default_plugin_manager
