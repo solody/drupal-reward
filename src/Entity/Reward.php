@@ -49,7 +49,7 @@ use Drupal\user\EntityOwnerTrait;
  *     "id" = "id",
  *     "bundle" = "type",
  *     "langcode" = "langcode",
- *     "label" = "label",
+ *     "label" = "name",
  *     "uuid" = "uuid",
  *     "owner" = "uid",
  *   },
@@ -88,7 +88,7 @@ final class Reward extends ContentEntityBase implements RewardInterface {
 
     $fields = parent::baseFieldDefinitions($entity_type);
 
-    $fields['label'] = BaseFieldDefinition::create('string')
+    $fields['name'] = BaseFieldDefinition::create('string')
       ->setTranslatable(TRUE)
       ->setLabel(t('Label'))
       ->setRequired(TRUE)
@@ -102,6 +102,62 @@ final class Reward extends ContentEntityBase implements RewardInterface {
         'label' => 'hidden',
         'type' => 'string',
         'weight' => -5,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+
+    $fields['amount'] = BaseFieldDefinition::create('commerce_price')
+      ->setLabel(t('Amount'))
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'commerce_price_default',
+        'weight' => 0,
+      ])
+      ->setDisplayOptions('form', [
+        'type' => 'commerce_list_price',
+        'weight' => 0,
+      ]);
+
+    $fields['account_type'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Account type'))
+      ->setDescription(t('Account type the amount will be save to.'))
+      ->setSetting('target_type', 'account_type')
+      ->setDisplayOptions('form', [
+        'type' => 'entity_reference_autocomplete',
+        'settings' => [
+          'match_operator' => 'CONTAINS',
+          'size' => 60,
+          'placeholder' => '',
+        ],
+        'weight' => 15,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'entity_reference_label',
+        'weight' => 15,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+
+    $fields['auto_claim'] = BaseFieldDefinition::create('boolean')
+      ->setLabel(t('Auto claim'))
+      ->setDefaultValue(TRUE)
+      ->setSetting('on_label', 'Yes')
+      ->setSetting('off_label', 'No')
+      ->setDisplayOptions('form', [
+        'type' => 'boolean_checkbox',
+        'settings' => [
+          'display_label' => FALSE,
+        ],
+        'weight' => 0,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'boolean',
+        'label' => 'above',
+        'weight' => 0,
+        'settings' => [
+          'format' => 'enabled-disabled',
+        ],
       ])
       ->setDisplayConfigurable('view', TRUE);
 

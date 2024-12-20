@@ -4,3 +4,35 @@
  * @file
  * Install, update and uninstall functions for the Reward module.
  */
+
+/**
+ * Implements hook_schema().
+ */
+function reward_schema(): array {
+  $schema['reward_claim'] = [
+    'description' => 'Record the reward claim.',
+    'fields' => [
+      'uid' => [
+        'description' => 'The user.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'reward_id' => [
+        'description' => 'The reward.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'timestamp' => [
+        'description' => 'Timestamp of the claiming.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'size' => 'big',
+      ],
+    ],
+  ];
+  return $schema;
+}
