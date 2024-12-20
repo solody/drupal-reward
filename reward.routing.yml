@@ -1,0 +1,7 @@
+entity.reward.settings:
+  path: 'admin/structure/reward'
+  defaults:
+    _form: '\Drupal\reward\Form\RewardSettingsForm'
+    _title: 'Reward'
+  requirements:
+    _permission: 'administer reward'

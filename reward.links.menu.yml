@@ -1,0 +1,11 @@
+entity.reward.settings:
+  title: 'Reward'
+  description: 'Configure a Reward entity type.'
+  route_name:  entity.reward.settings
+  parent: system.admin_structure
+
+entity.reward.collection:
+  title: 'Rewards'
+  description: 'List of rewards.'
+  route_name: entity.reward.collection
+  parent: system.admin_content

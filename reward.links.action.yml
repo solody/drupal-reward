@@ -1,0 +1,5 @@
+reward.add_form:
+  title: 'Add reward'
+  route_name: entity.reward.add_form
+  appears_on:
+    - entity.reward.collection

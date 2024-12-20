@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - reward
+id: reward_save_action
+label: 'Save rewards'
+type: reward
+plugin: entity:save_action:reward
+configuration: {  }

@@ -1,0 +1,11 @@
+administer reward:
+  title: 'Administer rewards'
+  restrict access: true
+view reward:
+  title: 'View reward'
+edit reward:
+  title: 'Edit reward'
+delete reward:
+  title: 'Delete reward'
+create reward:
+  title: 'Create reward'

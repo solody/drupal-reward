@@ -1,0 +1,22 @@
+entity.reward.settings:
+  title: 'Settings'
+  route_name: entity.reward.settings
+  base_route: entity.reward.settings
+entity.reward.view:
+  title: 'View'
+  route_name: entity.reward.canonical
+  base_route: entity.reward.canonical
+entity.reward.edit_form:
+  title: 'Edit'
+  route_name: entity.reward.edit_form
+  base_route: entity.reward.canonical
+entity.reward.delete_form:
+  title: 'Delete'
+  route_name: entity.reward.delete_form
+  base_route: entity.reward.canonical
+  weight: 10
+entity.reward.collection:
+  title: 'Rewards'
+  route_name: entity.reward.collection
+  base_route: system.admin_content
+  weight: 10
