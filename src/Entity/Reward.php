@@ -55,8 +55,8 @@ use Drupal\user\EntityOwnerTrait;
  *   },
  *   links = {
  *     "collection" = "/admin/reward/reward",
- *     "add-form" = "/admin/reward/reward/add",/{type}",
- *      "add-page" = "/admin/reward/reward/add",
+ *     "add-form" = "/admin/reward/reward/add/{type}",
+ *     "add-page" = "/admin/reward/reward/add",
  *     "canonical" = "/admin/reward/reward/{reward}",
  *     "edit-form" = "/admin/reward/reward/{reward}/edit",
  *     "delete-form" = "/admin/reward/reward/{reward}/delete",

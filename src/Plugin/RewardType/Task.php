@@ -51,11 +51,4 @@ final class Task extends RewardTypePluginBase {
     return $fields;
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    // @todo Implement create() method.
-  }
-
 }
