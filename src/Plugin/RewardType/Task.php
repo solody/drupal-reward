@@ -9,6 +9,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\reward\Attribute\RewardType;
 use Drupal\reward\RewardTypePluginBase;
+use Drupal\task\Event\TaskFinishedEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -30,6 +31,7 @@ final class Task extends RewardTypePluginBase {
     $fields = [];
     $fields['task'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel($this->t('Task'))
+      ->setRequired(TRUE)
       ->setDescription($this->t('Which task should be finished to get the reward.'))
       ->setSetting('target_type', 'task')
       ->setDisplayOptions('form', [
@@ -50,5 +52,25 @@ final class Task extends RewardTypePluginBase {
       ->setDisplayConfigurable('view', TRUE);
     return $fields;
   }
+
+  public function onTaskFinished(TaskFinishedEvent $event) {
+    // Load all task rewards.
+    /** @var \Drupal\reward\RewardStorageInterface $rewardStorage */
+    $rewardStorage = $this->entityTypeManager->getStorage('reward');
+    $rewards = $rewardStorage->loadAllOfType($this->pluginDefinition['id']);
+
+    foreach ($rewards as $reward) {
+      $task = $reward->get('task')->referencedEntities();
+      if (!empty($task)) {
+        $task = reset($task);
+        if ($task->id() === $event->getTask()) {
+
+        }
+      }
+    }
+
+  }
+
+  public function getDescription() {}
 
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\reward;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\Database\Connection;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -24,10 +25,23 @@ abstract class RewardTypePluginBase extends PluginBase implements RewardTypeInte
    */
   protected EventDispatcherInterface $eventDispatcher;
 
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, Connection $connection, EventDispatcherInterface $event_dispatcher) {
+  /**
+   * The entityTypeManager.
+   */
+  protected EntityTypeManagerInterface $entityTypeManager;
+
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    Connection $connection,
+    EventDispatcherInterface $event_dispatcher,
+    EntityTypeManagerInterface $entityTypeManager,
+  ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->connection = $connection;
     $this->eventDispatcher = $event_dispatcher;
+    $this->entityTypeManager = $entityTypeManager;
   }
 
   /**
@@ -40,6 +54,7 @@ abstract class RewardTypePluginBase extends PluginBase implements RewardTypeInte
       $plugin_definition,
       $container->get('database'),
       $container->get('event_dispatcher'),
+      $container->get('entity_type.manager'),
     );
   }
 

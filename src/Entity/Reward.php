@@ -31,6 +31,7 @@ use Drupal\user\EntityOwnerTrait;
  *     "list_builder" = "Drupal\reward\RewardListBuilder",
  *     "views_data" = "Drupal\views\EntityViewsData",
  *     "access" = "Drupal\reward\RewardAccessControlHandler",
+ *     "storage" = "Drupal\reward\RewardStorage",
  *     "form" = {
  *       "add" = "Drupal\reward\Form\RewardForm",
  *       "edit" = "Drupal\reward\Form\RewardForm",
@@ -107,6 +108,7 @@ final class Reward extends ContentEntityBase implements RewardInterface {
 
     $fields['amount'] = BaseFieldDefinition::create('commerce_price')
       ->setLabel(t('Amount'))
+      ->setRequired(TRUE)
       ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'commerce_price_default',
@@ -120,6 +122,7 @@ final class Reward extends ContentEntityBase implements RewardInterface {
     $fields['account_type'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Account type'))
       ->setDescription(t('Account type the amount will be save to.'))
+      ->setRequired(TRUE)
       ->setSetting('target_type', 'account_type')
       ->setDisplayOptions('form', [
         'type' => 'entity_reference_autocomplete',
