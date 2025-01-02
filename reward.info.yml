@@ -6,3 +6,4 @@ core_version_requirement: ^10 || ^11
 dependencies:
   - task:task
   - account:account
+  - commerce:commerce_price
