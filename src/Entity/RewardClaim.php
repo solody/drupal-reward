@@ -78,9 +78,9 @@ final class RewardClaim extends ContentEntityBase implements RewardClaimInterfac
     $fields = parent::baseFieldDefinitions($entity_type);
 
     $fields['uid'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Author'))
+      ->setLabel(t('Claimer'))
+      ->setRequired(TRUE)
       ->setSetting('target_type', 'user')
-      ->setDefaultValueCallback(self::class . '::getDefaultEntityOwner')
       ->setDisplayOptions('form', [
         'type' => 'entity_reference_autocomplete',
         'settings' => [
@@ -93,7 +93,28 @@ final class RewardClaim extends ContentEntityBase implements RewardClaimInterfac
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('view', [
         'label' => 'above',
-        'type' => 'author',
+        'type' => 'entity_reference_label',
+        'weight' => 15,
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+
+    $fields['reward_id'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Claimer'))
+      ->setRequired(TRUE)
+      ->setSetting('target_type', 'reward')
+      ->setDisplayOptions('form', [
+        'type' => 'entity_reference_autocomplete',
+        'settings' => [
+          'match_operator' => 'CONTAINS',
+          'size' => 60,
+          'placeholder' => '',
+        ],
+        'weight' => 15,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'entity_reference_label',
         'weight' => 15,
       ])
       ->setDisplayConfigurable('view', TRUE);
