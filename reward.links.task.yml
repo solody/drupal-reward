@@ -20,3 +20,22 @@ entity.reward.collection:
   route_name: entity.reward.collection
   base_route: system.admin_content
   weight: 10
+
+entity.reward_claim.view:
+  title: 'View'
+  route_name: entity.reward_claim.canonical
+  base_route: entity.reward_claim.canonical
+entity.reward_claim.edit_form:
+  title: 'Edit'
+  route_name: entity.reward_claim.edit_form
+  base_route: entity.reward_claim.canonical
+entity.reward_claim.delete_form:
+  title: 'Delete'
+  route_name: entity.reward_claim.delete_form
+  base_route: entity.reward_claim.canonical
+  weight: 10
+entity.reward_claim.collection:
+  title: 'Reward claims'
+  route_name: entity.reward_claim.collection
+  base_route: system.admin_content
+  weight: 10

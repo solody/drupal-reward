@@ -3,3 +3,9 @@ reward.add_form:
   route_name: entity.reward.add_form
   appears_on:
     - entity.reward.collection
+
+reward_claim.add_form:
+  title: 'Add reward claim'
+  route_name: entity.reward_claim.add_form
+  appears_on:
+    - entity.reward_claim.collection

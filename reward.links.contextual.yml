@@ -8,3 +8,14 @@ entity.reward.delete_form:
   group: reward
   title: 'Delete'
   weight: 10
+
+entity.reward_claim.edit_form:
+  route_name: entity.reward_claim.edit_form
+  group: reward_claim
+  title: 'Edit'
+
+entity.reward_claim.delete_form:
+  route_name: entity.reward_claim.delete_form
+  group: reward_claim
+  title: 'Delete'
+  weight: 10

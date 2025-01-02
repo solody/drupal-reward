@@ -9,3 +9,9 @@ entity.reward.collection:
   description: 'List of rewards.'
   route_name: entity.reward.collection
   parent: system.admin_content
+
+entity.reward_claim.collection:
+  title: 'Reward claims'
+  description: 'List of reward claims.'
+  route_name: entity.reward_claim.collection
+  parent: system.admin_content

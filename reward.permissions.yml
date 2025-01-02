@@ -9,3 +9,15 @@ delete reward:
   title: 'Delete reward'
 create reward:
   title: 'Create reward'
+
+administer reward_claim:
+  title: 'Administer reward claims'
+  restrict access: true
+view reward_claim:
+  title: 'View reward claim'
+edit reward_claim:
+  title: 'Edit reward claim'
+delete reward_claim:
+  title: 'Delete reward claim'
+create reward_claim:
+  title: 'Create reward claim'
