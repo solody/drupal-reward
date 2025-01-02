@@ -28,6 +28,7 @@ use Drupal\user\EntityOwnerTrait;
  *     "list_builder" = "Drupal\reward\RewardClaimListBuilder",
  *     "views_data" = "Drupal\views\EntityViewsData",
  *     "access" = "Drupal\reward\RewardClaimAccessControlHandler",
+ *     "storage" = "Drupal\reward\RewardClaimStorage",
  *     "form" = {
  *       "add" = "Drupal\reward\Form\RewardClaimForm",
  *       "edit" = "Drupal\reward\Form\RewardClaimForm",
