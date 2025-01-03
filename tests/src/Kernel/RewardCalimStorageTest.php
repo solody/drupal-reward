@@ -8,6 +8,8 @@ use Drupal\account\Entity\Account;
 use Drupal\account\Entity\AccountType;
 use Drupal\commerce_price\Price;
 use Drupal\reward\Entity\Reward;
+use Drupal\reward\Entity\RewardClaim;
+use Drupal\reward\RewardClaimInterface;
 use Drupal\task\Entity\Task;
 use Drupal\Tests\commerce\Kernel\CommerceKernelTestBase;
 use Drupal\Tests\user\Traits\UserCreationTrait;
@@ -17,7 +19,7 @@ use PHPUnit\Framework\Attributes\Group;
  * Test description.
  */
 #[Group('reward')]
-final class TaskRewardTypeTest extends CommerceKernelTestBase {
+final class RewardCalimStorageTest extends CommerceKernelTestBase {
 
   use UserCreationTrait {
     createRole as drupalCreateRole;
@@ -80,7 +82,15 @@ final class TaskRewardTypeTest extends CommerceKernelTestBase {
     ]);
     $reward->save();
 
-    self::assertTrue(TRUE);
+    /** @var \Drupal\reward\RewardClaimStorageInterface $reward_claim_storage */
+    $reward_claim_storage = $this->entityTypeManager->getStorage('reward_claim');
+    $reward_claim_storage->addRewardClaim((int) $reward->id(), (int) $user->id());
+    $reward_claim_storage->addRewardClaim((int) $reward->id(), (int) $user->id());
+    $reward_claim_storage->addRewardClaim((int) $reward->id(), (int) $user->id());
+
+    self::assertEquals(1, count($reward_claim_storage->loadAllOfReward((int) $reward->id())));
+    self::assertEquals(1, count($reward_claim_storage->loadAllOfUser((int) $user->id())));
+    self::assertTrue($reward_claim_storage->getRewardClaim((int) $reward->id(), (int) $user->id()) instanceof RewardClaimInterface);
   }
 
 }

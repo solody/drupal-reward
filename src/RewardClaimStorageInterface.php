@@ -51,10 +51,7 @@ interface RewardClaimStorageInterface extends ContentEntityStorageInterface {
    *   The reward id.
    * @param int $uid
    *   The user.
-   *
-   * @return \Drupal\reward\RewardClaimInterface
-   *   The created reward claims.
    */
-  public function addRewardClaim(int $reward_id, int $uid): RewardClaimInterface;
+  public function addRewardClaim(int $reward_id, int $uid): void;
 
 }
