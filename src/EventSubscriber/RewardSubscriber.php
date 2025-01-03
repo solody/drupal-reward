@@ -7,6 +7,7 @@ namespace Drupal\reward\EventSubscriber;
 use Drupal\Core\Database\Connection;
 use Drupal\reward\Entity\Reward;
 use Drupal\task\Event\TaskEvents;
+use Drupal\task\Event\TaskFinishedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;

@@ -9,6 +9,7 @@ use Drupal\account\Entity\AccountType;
 use Drupal\commerce_price\Price;
 use Drupal\reward\Entity\Reward;
 use Drupal\task\Entity\Task;
+use Drupal\task_test\Event\TestPluginEvent;
 use Drupal\Tests\commerce\Kernel\CommerceKernelTestBase;
 use Drupal\Tests\user\Traits\UserCreationTrait;
 use PHPUnit\Framework\Attributes\Group;
@@ -45,6 +46,9 @@ final class TaskRewardTypeTest extends CommerceKernelTestBase {
     $this->installEntitySchema('account');
     $this->installEntitySchema('account_type');
     $this->installEntitySchema('ledger');
+    $this->installSchema('task', [
+      'task_finish',
+    ]);
   }
 
   /**
@@ -79,6 +83,10 @@ final class TaskRewardTypeTest extends CommerceKernelTestBase {
       'task' => $task,
     ]);
     $reward->save();
+
+    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface $event_dispatcher */
+    $event_dispatcher = $this->container->get('event_dispatcher');
+    $event_dispatcher->dispatch(new TestPluginEvent((int) $user->id()), TestPluginEvent::EVENT_NAME);
 
     self::assertTrue(TRUE);
   }
