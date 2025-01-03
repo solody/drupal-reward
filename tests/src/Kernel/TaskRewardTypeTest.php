@@ -88,7 +88,8 @@ final class TaskRewardTypeTest extends CommerceKernelTestBase {
     $event_dispatcher = $this->container->get('event_dispatcher');
     $event_dispatcher->dispatch(new TestPluginEvent((int) $user->id()), TestPluginEvent::EVENT_NAME);
 
-    self::assertTrue(TRUE);
+    $account = Account::load($account->id());
+    self::assertEquals(0, $account->getBalance()->compareTo($reward->getAmount()));
   }
 
 }
