@@ -8,6 +8,7 @@ use Drupal\account\FinanceManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\Database\Connection;
+use Drupal\Core\Session\AccountInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -76,10 +77,7 @@ abstract class RewardTypePluginBase extends PluginBase implements RewardTypeInte
   }
 
   /**
-   * Load all task of current type.
-   *
-   * @return \Drupal\reward\RewardInterface[]
-   *   Tasks.
+   * {@inheritdoc}
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException

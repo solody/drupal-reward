@@ -81,6 +81,7 @@ final class TaskRewardTypeTest extends CommerceKernelTestBase {
       'account_type' => $account_type->id(),
       'auto_claim' => TRUE,
       'task' => $task,
+      'task_goal' => 1,
     ]);
     $reward->save();
 

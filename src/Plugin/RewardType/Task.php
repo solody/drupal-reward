@@ -6,9 +6,11 @@ namespace Drupal\reward\Plugin\RewardType;
 
 use Drupal\account\Entity\LedgerInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\reward\Attribute\RewardType;
+use Drupal\reward\RewardInterface;
 use Drupal\reward\RewardTypePluginBase;
 use Drupal\task\Event\TaskFinishedEvent;
 use Drupal\user\Entity\User;
@@ -52,7 +54,29 @@ final class Task extends RewardTypePluginBase {
         'weight' => 15,
       ])
       ->setDisplayConfigurable('view', TRUE);
+
+    $fields['task_goal'] = BaseFieldDefinition::create('integer')
+      ->setLabel($this->t('Task goal'))
+      ->setDescription($this->t('Which task goal be finished to get the reward.'))
+      ->setRequired(TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'number_integer',
+        'weight' => 0,
+      ])
+      ->setDisplayOptions('form', [
+        'type' => 'number',
+        'weight' => 0,
+      ]);
     return $fields;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function canClaim(RewardInterface $reward, AccountInterface $user): bool {
+
+    return TRUE;
   }
 
   /**
@@ -71,9 +95,14 @@ final class Task extends RewardTypePluginBase {
 
     foreach ($this->loadAllRewards() as $reward) {
       $task = $reward->get('task')->referencedEntities();
+      $task_goal = (int) $reward->get('task_goal')->value;
       if (!empty($task)) {
         $task = reset($task);
-        if ((int) $task->id() === $event->getTaskId() && $reward->get('auto_claim')->value) {
+        if (
+          (int) $task->id() === $event->getTaskId()
+          && $event->getGoal() === $task_goal
+          && $reward->get('auto_claim')->value
+        ) {
           $rewardClaimStorage->addRewardClaim((int) $reward->id(), $event->getUid());
           // Add amount to user account.
           $account_type = $reward->get('account_type')->referencedEntities();
