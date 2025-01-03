@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\reward\Entity;
 
+use Drupal\commerce_price\Price;
 use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityStorageInterface;
@@ -79,6 +80,15 @@ final class Reward extends ContentEntityBase implements RewardInterface {
     if (!$this->getOwnerId()) {
       // If no owner has been set explicitly, make the anonymous user the owner.
       $this->setOwnerId(0);
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getAmount(): ?Price {
+    if (!$this->get('amount')->isEmpty()) {
+      return $this->get('amount')->first()->toPrice();
     }
   }
 

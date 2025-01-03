@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\reward;
 
+use Drupal\account\FinanceManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\Database\Connection;
@@ -30,18 +31,25 @@ abstract class RewardTypePluginBase extends PluginBase implements RewardTypeInte
    */
   protected EntityTypeManagerInterface $entityTypeManager;
 
+  /**
+   * The finance manager.
+   */
+  protected FinanceManagerInterface $financeManager;
+
   public function __construct(
     array $configuration,
     $plugin_id,
     $plugin_definition,
     Connection $connection,
     EventDispatcherInterface $event_dispatcher,
-    EntityTypeManagerInterface $entityTypeManager,
+    EntityTypeManagerInterface $entity_type_manager,
+    FinanceManagerInterface $finance_manager,
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->connection = $connection;
     $this->eventDispatcher = $event_dispatcher;
-    $this->entityTypeManager = $entityTypeManager;
+    $this->entityTypeManager = $entity_type_manager;
+    $this->financeManager = $finance_manager;
   }
 
   /**
@@ -55,6 +63,7 @@ abstract class RewardTypePluginBase extends PluginBase implements RewardTypeInte
       $container->get('database'),
       $container->get('event_dispatcher'),
       $container->get('entity_type.manager'),
+      $container->get('account.finance_manager'),
     );
   }
 
@@ -64,6 +73,21 @@ abstract class RewardTypePluginBase extends PluginBase implements RewardTypeInte
   public function label(): string {
     // Cast the label to a string since it is a TranslatableMarkup object.
     return (string) $this->pluginDefinition['label'];
+  }
+
+  /**
+   * Load all task of current type.
+   *
+   * @return \Drupal\reward\RewardInterface[]
+   *   Tasks.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function loadAllRewards(): array {
+    /** @var \Drupal\reward\RewardStorageInterface $rewardStorage */
+    $rewardStorage = $this->entityTypeManager->getStorage('reward');
+    return $rewardStorage->loadAllOfType($this->pluginDefinition['id']);
   }
 
 }

@@ -59,13 +59,13 @@ final class TaskRewardTypeTest extends CommerceKernelTestBase {
     $account_type = AccountType::create([
       'id' => 'something',
       'label' => 'something',
+      'currency' => 'USD',
     ]);
     $account_type->save();
     $account = Account::create([
       'type' => $account_type->id(),
       'name' => 'something',
       'uid' => $user,
-      'concurrency_code' => 'USD',
     ]);
     $account->save();
 
