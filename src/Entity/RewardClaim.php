@@ -42,7 +42,7 @@ use Drupal\user\EntityOwnerTrait;
  *   base_table = "reward_claim",
  *   admin_permission = "administer reward_claim",
  *   entity_keys = {
- *     "id" = "reward_claim_id",
+ *     "id" = "claim_id",
  *     "uuid" = "uuid",
  *     "owner" = "uid",
  *   },
