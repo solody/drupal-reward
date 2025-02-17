@@ -90,6 +90,7 @@ final class Reward extends ContentEntityBase implements RewardInterface {
     if (!$this->get('amount')->isEmpty()) {
       return $this->get('amount')->first()->toPrice();
     }
+    return NULL;
   }
 
   /**
