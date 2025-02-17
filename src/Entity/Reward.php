@@ -48,7 +48,7 @@ use Drupal\user\EntityOwnerTrait;
  *   translatable = TRUE,
  *   admin_permission = "administer reward",
  *   entity_keys = {
- *     "id" = "id",
+ *     "id" = "reward_id",
  *     "bundle" = "type",
  *     "langcode" = "langcode",
  *     "label" = "name",
