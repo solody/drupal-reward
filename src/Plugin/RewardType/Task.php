@@ -33,7 +33,7 @@ final class Task extends RewardTypePluginBase {
    */
   public function buildFieldDefinitions() {
     $fields = [];
-    $fields['task'] = BaseFieldDefinition::create('entity_reference')
+    $fields['task_id'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel($this->t('Task'))
       ->setRequired(TRUE)
       ->setDescription($this->t('Which task should be finished to get the reward.'))
@@ -94,10 +94,9 @@ final class Task extends RewardTypePluginBase {
     $rewardClaimStorage = $this->entityTypeManager->getStorage('reward_claim');
 
     foreach ($this->loadAllRewards() as $reward) {
-      $task = $reward->get('task')->referencedEntities();
+      $task = $reward->get('task_id')->entity;
       $task_goal = (int) $reward->get('task_goal')->value;
       if (!empty($task)) {
-        $task = reset($task);
         if (
           (int) $task->id() === $event->getTaskId()
           && $event->getGoal() === $task_goal
@@ -109,11 +108,13 @@ final class Task extends RewardTypePluginBase {
           $account_type = reset($account_type);
           $currency = $account_type->getCurrency();
           $account = $this->financeManager->createAccount($event->getUser(), $account_type->id(), $currency);
+          $reward_id = $reward->id();
+          $task_id = $task->id();
           $this->financeManager->createLedger(
             $account,
             LedgerInterface::AMOUNT_TYPE_DEBIT,
             $reward->getAmount(),
-            $this->t('Reward got when task finished.'),
+            "Reward $reward_id got when task $task_id finished",
             $rewardClaimStorage->getRewardClaim((int) $reward->id(), $event->getUid())
           );
 

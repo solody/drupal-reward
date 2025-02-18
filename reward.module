@@ -5,6 +5,8 @@
  * Primary module hooks for Reward module.
  */
 
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Render\Element;
 use Drupal\user\UserInterface;
 
@@ -16,6 +18,30 @@ function reward_theme(): array {
     'reward' => ['render element' => 'elements'],
     'reward_claim' => ['render element' => 'elements'],
   ];
+}
+
+/**
+ * Implements hook_entity_base_field_info().
+ */
+function reward_entity_base_field_info(EntityTypeInterface $entity_type) {
+  $fields = [];
+  if ($entity_type->id() === 'task') {
+
+    // Add a field that shows a link to the user's current company.
+    $fields['rewards'] = BaseFieldDefinition::create('entity_reference')
+      ->setName('Rewards')
+      ->setLabel(t('Rewards belongs to the task.'))
+      ->setComputed(TRUE)
+      ->setClass('\Drupal\reward\RewardItemList')
+      ->setSetting('target_type', 'reward')
+      ->setSetting('handler', 'default')
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'hidden',
+        'weight' => -5,
+      ]);
+  }
+  return $fields;
 }
 
 /**
