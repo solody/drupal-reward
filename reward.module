@@ -56,6 +56,18 @@ function reward_entity_base_field_info(EntityTypeInterface $entity_type) {
         'label' => 'hidden',
         'weight' => -5,
       ]);
+
+    $fields['claim_info'] = BaseFieldDefinition::create('reward_claim_info')
+      ->setName('Claim info')
+      ->setLabel(t('Claim info of the reward for current user'))
+      ->setComputed(TRUE)
+      ->setClass('\Drupal\reward\ClaimInfoList')
+      ->setCardinality(1) // You only need this if your computed field is multi-value.
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'hidden',
+        'weight' => -5,
+      ]);
   }
   return $fields;
 }
