@@ -100,7 +100,7 @@ final class RewardClaim extends ContentEntityBase implements RewardClaimInterfac
       ->setDisplayConfigurable('view', TRUE);
 
     $fields['reward_id'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Claimer'))
+      ->setLabel(t('The reward be claimed'))
       ->setRequired(TRUE)
       ->setSetting('target_type', 'reward')
       ->setDisplayOptions('form', [

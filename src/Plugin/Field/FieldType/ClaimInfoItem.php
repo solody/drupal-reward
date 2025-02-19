@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drupal\task\Plugin\Field\FieldType;
+namespace Drupal\reward\Plugin\Field\FieldType;
 
 use Drupal\Core\Field\Attribute\FieldType;
 use Drupal\Core\Field\Plugin\Field\FieldType\MapItem;

@@ -8,7 +8,6 @@ use Drupal\account\Entity\Account;
 use Drupal\account\Entity\AccountType;
 use Drupal\commerce_price\Price;
 use Drupal\reward\Entity\Reward;
-use Drupal\reward\Entity\RewardClaim;
 use Drupal\reward\RewardClaimInterface;
 use Drupal\task\Entity\Task;
 use Drupal\Tests\commerce\Kernel\CommerceKernelTestBase;
@@ -19,7 +18,7 @@ use PHPUnit\Framework\Attributes\Group;
  * Test description.
  */
 #[Group('reward')]
-final class RewardCalimStorageTest extends CommerceKernelTestBase {
+final class RewardClaimStorageTest extends CommerceKernelTestBase {
 
   use UserCreationTrait {
     createRole as drupalCreateRole;
