@@ -9,7 +9,7 @@ use Drupal\Core\TypedData\ComputedItemListTrait;
 /**
  * Item list for a computed field that displays the return orders of an order.
  */
-class RewardItemList extends FieldItemList implements EntityReferenceFieldItemListInterface {
+class RewardClaimItemList extends FieldItemList implements EntityReferenceFieldItemListInterface {
 
   use ComputedItemListTrait;
 
@@ -36,7 +36,7 @@ class RewardItemList extends FieldItemList implements EntityReferenceFieldItemLi
    */
   protected function ensurePopulated() {
     if (!$this->isComputed) {
-      foreach ($this->getRewards() as $index => $reward) {
+      foreach ($this->getRewardClaims() as $index => $reward) {
         if ($reward instanceof RewardInterface) {
           $this->list[] = $this->createItem($index, $reward);
         }
@@ -49,24 +49,24 @@ class RewardItemList extends FieldItemList implements EntityReferenceFieldItemLi
    * {@inheritdoc}
    */
   public function referencedEntities() {
-    return $this->getRewards();
+    return $this->getRewardClaims();
   }
 
   /**
    * Get the rewards belongs to the task.
    *
-   * @return array|\Drupal\reward\RewardInterface[]
+   * @return array|\Drupal\reward\RewardClaimInterface[]
    *   An array of rewards or null.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  protected function getRewards() {
-    /** @var \Drupal\reward\RewardStorageInterface $reward_storage */
-    $reward_storage = \Drupal::entityTypeManager()->getStorage('reward');
-    $task = $this->getEntity();
-    $rewards = $reward_storage->loadByProperties([
-      'task_id' => $task->id(),
+  protected function getRewardClaims() {
+    /** @var \Drupal\reward\RewardClaimStorageInterface $reward_claim_storage */
+    $reward_claim_storage = \Drupal::entityTypeManager()->getStorage('reward_claim');
+    $reward = $this->getEntity();
+    $rewards = $reward_claim_storage->loadByProperties([
+      'reward_id' => $reward->id(),
     ]);
     if (!empty($rewards)) {
       return array_values($rewards);

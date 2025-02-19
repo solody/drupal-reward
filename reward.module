@@ -7,6 +7,7 @@
 
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Render\Element;
 use Drupal\user\UserInterface;
 
@@ -26,14 +27,29 @@ function reward_theme(): array {
 function reward_entity_base_field_info(EntityTypeInterface $entity_type) {
   $fields = [];
   if ($entity_type->id() === 'task') {
-
-    // Add a field that shows a link to the user's current company.
     $fields['rewards'] = BaseFieldDefinition::create('entity_reference')
       ->setName('Rewards')
       ->setLabel(t('Rewards belongs to the task.'))
       ->setComputed(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
       ->setClass('\Drupal\reward\RewardItemList')
       ->setSetting('target_type', 'reward')
+      ->setSetting('handler', 'default')
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'hidden',
+        'weight' => -5,
+      ]);
+  }
+
+  if ($entity_type->id() === 'reward') {
+    $fields['claims'] = BaseFieldDefinition::create('entity_reference')
+      ->setName('Claims')
+      ->setLabel(t('Claims of this reward.'))
+      ->setComputed(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setClass('\Drupal\reward\RewardClaimItemList')
+      ->setSetting('target_type', 'reward_claim')
       ->setSetting('handler', 'default')
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
