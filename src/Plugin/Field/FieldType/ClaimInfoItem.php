@@ -59,9 +59,9 @@ final class ClaimInfoItem extends MapItem {
     if (!$this->isCalculated) {
       /** @var \Drupal\reward\RewardInterface $reward */
       $reward = $this->getEntity();
-      if ($reward->bundle() !== 'task') {
+      if ($reward->bundle() === 'task') {
         /** @var \Drupal\task\TaskInterface $task */
-        $task = $this->getEntity();
+        $task = $reward->get('task_id')->entity;
         if (!$reward->isNew()) {
           // Check whether the task has been finished for current user.
           /** @var \Drupal\task\TaskTypePluginManager $task_type_plugin_manager */
