@@ -8,3 +8,7 @@ services:
     arguments: ['@database', '@plugin.manager.reward_type']
     tags:
       - { name: event_subscriber }
+
+  reward.claim:
+    class: Drupal\reward\ClaimManager
+    arguments: ['@entity_type.manager', '@account.finance_manager']

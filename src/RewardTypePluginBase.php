@@ -37,6 +37,11 @@ abstract class RewardTypePluginBase extends PluginBase implements RewardTypeInte
    */
   protected FinanceManagerInterface $financeManager;
 
+  /**
+   * The claim manager.
+   */
+  protected ClaimManagerInterface $claimManager;
+
   public function __construct(
     array $configuration,
     $plugin_id,
@@ -45,12 +50,14 @@ abstract class RewardTypePluginBase extends PluginBase implements RewardTypeInte
     EventDispatcherInterface $event_dispatcher,
     EntityTypeManagerInterface $entity_type_manager,
     FinanceManagerInterface $finance_manager,
+    ClaimManagerInterface $claim_manager,
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->connection = $connection;
     $this->eventDispatcher = $event_dispatcher;
     $this->entityTypeManager = $entity_type_manager;
     $this->financeManager = $finance_manager;
+    $this->claimManager = $claim_manager;
   }
 
   /**
@@ -65,6 +72,7 @@ abstract class RewardTypePluginBase extends PluginBase implements RewardTypeInte
       $container->get('event_dispatcher'),
       $container->get('entity_type.manager'),
       $container->get('account.finance_manager'),
+      $container->get('reward.claim'),
     );
   }
 

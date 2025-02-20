@@ -89,10 +89,6 @@ final class Task extends RewardTypePluginBase {
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function onTaskFinished(TaskFinishedEvent $event) {
-
-    /** @var \Drupal\reward\RewardClaimStorageInterface $rewardClaimStorage */
-    $rewardClaimStorage = $this->entityTypeManager->getStorage('reward_claim');
-
     foreach ($this->loadAllRewards() as $reward) {
       $task = $reward->get('task_id')->entity;
       $task_goal = (int) $reward->get('task_goal')->value;
@@ -102,22 +98,7 @@ final class Task extends RewardTypePluginBase {
           && $event->getGoal() === $task_goal
           && $reward->get('auto_claim')->value
         ) {
-          $rewardClaimStorage->addRewardClaim((int) $reward->id(), $event->getUid());
-          // Add amount to user account.
-          $account_type = $reward->get('account_type')->referencedEntities();
-          $account_type = reset($account_type);
-          $currency = $account_type->getCurrency();
-          $account = $this->financeManager->createAccount($event->getUser(), $account_type->id(), $currency);
-          $reward_id = $reward->id();
-          $task_id = $task->id();
-          $this->financeManager->createLedger(
-            $account,
-            LedgerInterface::AMOUNT_TYPE_DEBIT,
-            $reward->getAmount(),
-            "Reward $reward_id got when task $task_id finished",
-            $rewardClaimStorage->getRewardClaim((int) $reward->id(), $event->getUid())
-          );
-
+          $this->claimManager->claimReward((int) $reward->id(), $event->getUid());
         }
       }
     }
