@@ -96,7 +96,7 @@ class RewardClaimStorage extends SqlContentEntityStorage implements RewardClaimS
   /**
    * {@inheritdoc}
    */
-  public function addRewardClaim(int $reward_id, int $uid): void {
+  public function addRewardClaim(int $reward_id, int $uid): RewardClaimInterface {
     // Make unique check.
     // https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Lock%21LockBackendInterface.php/group/lock
     if ($this->lock->acquire(self::LOCK_ID)) {
@@ -107,6 +107,7 @@ class RewardClaimStorage extends SqlContentEntityStorage implements RewardClaimS
             'uid' => $uid,
           ]);
           $claim->save();
+          return $claim;
         }
       }
       finally {

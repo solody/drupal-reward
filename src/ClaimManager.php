@@ -49,6 +49,8 @@ class ClaimManager implements ClaimManagerInterface {
       "Reward $reward_id got when task $task_id finished",
       $claim
     );
+
+    return $claim;
   }
 
 }

@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - basic_auth
+    - reward
+    - serialization
+    - simple_oauth
+    - user
+id: reward_claim
+plugin_id: reward_claim
+granularity: resource
+configuration:
+  methods:
+    - POST
+  formats:
+    - json
+  authentication:
+    - basic_auth
+    - oauth2
+    - cookie
