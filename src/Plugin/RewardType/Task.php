@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\reward\Plugin\RewardType;
 
 use Drupal\account\Entity\LedgerInterface;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -90,15 +91,19 @@ final class Task extends RewardTypePluginBase {
    */
   public function onTaskFinished(TaskFinishedEvent $event) {
     foreach ($this->loadAllRewards() as $reward) {
+      /** @var \Drupal\task\TaskInterface $task */
       $task = $reward->get('task_id')->entity;
       $task_goal = (int) $reward->get('task_goal')->value;
       if (!empty($task)) {
-        if (
-          (int) $task->id() === $event->getTaskId()
+        $task_id = $task->id();
+        $reward_id = $reward->id();
+        if ((int) $task_id === $event->getTaskId()
           && $event->getGoal() === $task_goal
-          && $reward->get('auto_claim')->value
-        ) {
+          && $reward->get('auto_claim')->value) {
           $this->claimManager->claimReward((int) $reward->id(), $event->getUid());
+        }
+        else {
+          Cache::invalidateTags(["task:$task_id", 'task_list', "reward:$reward_id", 'reward_list']);
         }
       }
     }

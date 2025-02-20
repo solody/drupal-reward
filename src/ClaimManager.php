@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\reward;
 
 use Drupal\account\Entity\LedgerInterface;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\account\FinanceManagerInterface;
 use Drupal\reward\Entity\Reward;
@@ -49,6 +50,9 @@ class ClaimManager implements ClaimManagerInterface {
       "Reward $reward_id got when task $task_id finished",
       $claim
     );
+
+    // Invalidate the cache.
+    Cache::invalidateTags(["task:$task_id", 'task_list', "reward:$reward_id", 'reward_list']);
 
     return $claim;
   }
