@@ -20,8 +20,8 @@ class ClaimManager implements ClaimManagerInterface {
    * Constructs a ClaimManager object.
    */
   public function __construct(
-    private EntityTypeManagerInterface $entityTypeManager,
-    private FinanceManagerInterface $financeManager,
+    private readonly EntityTypeManagerInterface $entityTypeManager,
+    private readonly FinanceManagerInterface $financeManager,
   ) {}
 
   /**
