@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace Drupal\reward\Plugin\RewardType;
 
-use Drupal\account\Entity\LedgerInterface;
 use Drupal\Core\Cache\Cache;
-use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\entity\BundleFieldDefinition;
 use Drupal\reward\Attribute\RewardType;
 use Drupal\reward\RewardInterface;
 use Drupal\reward\RewardTypePluginBase;
 use Drupal\task\Event\TaskFinishedEvent;
-use Drupal\user\Entity\User;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Plugin implementation of the reward_type.
@@ -34,7 +31,7 @@ final class Task extends RewardTypePluginBase {
    */
   public function buildFieldDefinitions() {
     $fields = [];
-    $fields['task_id'] = BaseFieldDefinition::create('entity_reference')
+    $fields['task_id'] = BundleFieldDefinition::create('entity_reference')
       ->setLabel($this->t('Task'))
       ->setRequired(TRUE)
       ->setDescription($this->t('Which task should be finished to get the reward.'))
@@ -56,7 +53,7 @@ final class Task extends RewardTypePluginBase {
       ])
       ->setDisplayConfigurable('view', TRUE);
 
-    $fields['task_goal'] = BaseFieldDefinition::create('integer')
+    $fields['task_goal'] = BundleFieldDefinition::create('integer')
       ->setLabel($this->t('Task goal'))
       ->setDescription($this->t('Which task goal be finished to get the reward.'))
       ->setRequired(TRUE)
