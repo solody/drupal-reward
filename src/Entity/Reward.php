@@ -11,6 +11,7 @@ use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\reward\RewardInterface;
+use Drupal\reward\RewardTypeInterface;
 use Drupal\user\EntityOwnerTrait;
 
 /**
@@ -71,6 +72,17 @@ final class Reward extends ContentEntityBase implements RewardInterface {
 
   use EntityChangedTrait;
   use EntityOwnerTrait;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRewardTypePlugin(): RewardTypeInterface {
+    /** @var \Drupal\reward\RewardTypePluginManager $reward_type_plugin_manager */
+    $reward_type_plugin_manager = \Drupal::service('plugin.manager.reward_type');
+    /** @var \Drupal\reward\RewardTypeInterface $plugin */
+    $plugin = $reward_type_plugin_manager->createInstance($this->bundle());
+    return $plugin;
+  }
 
   /**
    * {@inheritdoc}

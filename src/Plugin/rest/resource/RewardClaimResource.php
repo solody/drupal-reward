@@ -92,7 +92,6 @@ final class RewardClaimResource extends ResourceBase {
       throw new AccessDeniedHttpException();
     }
     try {
-      // @todo Check claim condition.
       $claim = $this->claimManager->claimReward((int) $reward->id(), (int) \Drupal::currentUser()->id());
       // Return the newly created record in the response body.
       return new ModifiedResourceResponse($claim, 201);

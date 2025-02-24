@@ -19,4 +19,12 @@ interface RewardInterface extends ContentEntityInterface, EntityOwnerInterface, 
    */
   public function getAmount(): ?Price;
 
+  /**
+   * Get the instance of the reward type plugin.
+   *
+   * @return \Drupal\reward\RewardTypeInterface
+   *   The reward type plugin.
+   */
+  public function getRewardTypePlugin(): RewardTypeInterface;
+
 }
