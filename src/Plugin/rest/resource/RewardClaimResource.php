@@ -13,6 +13,7 @@ use Drupal\reward\RewardInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Route;
 
 /**
@@ -90,9 +91,15 @@ final class RewardClaimResource extends ResourceBase {
     if (!\Drupal::currentUser()->isAuthenticated()) {
       throw new AccessDeniedHttpException();
     }
-    $claim = $this->claimManager->claimReward((int) $reward->id(), (int) \Drupal::currentUser()->id());
-    // Return the newly created record in the response body.
-    return new ModifiedResourceResponse($claim, 201);
+    try {
+      // @todo Check claim condition.
+      $claim = $this->claimManager->claimReward((int) $reward->id(), (int) \Drupal::currentUser()->id());
+      // Return the newly created record in the response body.
+      return new ModifiedResourceResponse($claim, 201);
+    }
+    catch (\Throwable $throwable) {
+      throw new BadRequestHttpException($throwable->getMessage());
+    }
   }
 
   /**

@@ -2,6 +2,7 @@
 
 namespace Drupal\reward;
 
+use _PHPStan_e52dec71a\Nette\Neon\Exception;
 use Drupal\Core\Lock\LockBackendInterface;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Cache\MemoryCache\MemoryCacheInterface;
@@ -108,6 +109,9 @@ class RewardClaimStorage extends SqlContentEntityStorage implements RewardClaimS
           ]);
           $claim->save();
           return $claim;
+        }
+        else {
+          throw new Exception('The reward ' . $reward_id . ' has already been claimed by the user ' . $uid);
         }
       }
       finally {
