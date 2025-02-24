@@ -5,35 +5,30 @@ declare(strict_types=1);
 namespace Drupal\reward\EventSubscriber;
 
 use Drupal\reward\RewardTypePluginManager;
-use Drupal\Core\Database\Connection;
-use Drupal\reward\Plugin\RewardType\Task;
 use Drupal\task\Event\TaskEvents;
 use Drupal\task\Event\TaskFinishedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * @todo Add description for this subscriber.
+ * Process reward when event dispatch.
  */
-final class RewardSubscriber implements EventSubscriberInterface {
+class RewardSubscriber implements EventSubscriberInterface {
 
   /**
    * Constructs a RewardSubscriber object.
    */
   public function __construct(
-    private readonly Connection $connection,
-    private readonly RewardTypePluginManager $rewardTypePluginManager,
+    protected RewardTypePluginManager $rewardTypePluginManager,
   ) {}
 
   /**
-   * Kernel request event handler.
+   * Automatically claim the reward when corresponding task has been finished.
    */
   public function onTaskFinished(TaskFinishedEvent $event): void {
     // Process every task reward.
+    /** @var \Drupal\reward\Plugin\RewardType\Task $plugin */
     $plugin = $this->rewardTypePluginManager->createInstance('task');
-    if ($plugin instanceof Task) {
-      $plugin->onTaskFinished($event);
-    }
-
+    $plugin->autoClaim($event);
   }
 
   /**

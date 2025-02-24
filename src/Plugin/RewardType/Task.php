@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\reward\Plugin\RewardType;
 
+use Drupal\Component\EventDispatcher\Event;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -80,33 +81,19 @@ final class Task extends RewardTypePluginBase {
   }
 
   /**
-   * On TaskFinished.
-   *
-   * @param \Drupal\task\Event\TaskFinishedEvent $event
-   *   The event.
-   *
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   * {@inheritdoc}
    */
-  public function onTaskFinished(TaskFinishedEvent $event) {
-    foreach ($this->loadAllRewards() as $reward) {
-      /** @var \Drupal\task\TaskInterface $task */
-      $task = $reward->get('task_id')->entity;
-      $task_goal = (int) $reward->get('task_goal')->value;
-      if (!empty($task)) {
-        $task_id = $task->id();
-        $reward_id = $reward->id();
-        if ((int) $task_id === $event->getTaskId()
-          && $event->getGoal() === $task_goal
-          && $reward->get('auto_claim')->value) {
+  public function autoClaim(Event $event): void {
+    if ($event instanceof TaskFinishedEvent) {
+      foreach ($this->loadAllRewards() as $reward) {
+        if ($this->canClaim($reward, $event->getUser()) && $reward->get('auto_claim')->value) {
           $this->claimManager->claimReward((int) $reward->id(), $event->getUid());
         }
-        else {
-          Cache::invalidateTags(["task:$task_id", 'task_list', "reward:$reward_id", 'reward_list']);
-        }
+        $task_id = $reward->get('task_id')->target_id;
+        $reward_id = $reward->id();
+        Cache::invalidateTags(["task:$task_id", 'task_list', "reward:$reward_id", 'reward_list']);
       }
     }
-
   }
 
 }

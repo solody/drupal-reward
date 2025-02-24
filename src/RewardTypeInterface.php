@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\reward;
 
+use Drupal\Component\EventDispatcher\Event;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\entity\BundlePlugin\BundlePluginInterface;
@@ -38,5 +39,13 @@ interface RewardTypeInterface extends BundlePluginInterface, ContainerFactoryPlu
    *   Whether the user can claim the reward.
    */
   public function canClaim(RewardInterface $reward, AccountInterface $user): bool;
+
+  /**
+   * Auto claim when event dispatch.
+   *
+   * @param \Drupal\Component\EventDispatcher\Event $event
+   *   The event.
+   */
+  public function autoClaim(Event $event): void;
 
 }

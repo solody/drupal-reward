@@ -5,7 +5,7 @@ services:
 
   reward.event_subscriber:
     class: Drupal\reward\EventSubscriber\RewardSubscriber
-    arguments: ['@database', '@plugin.manager.reward_type']
+    arguments: ['@plugin.manager.reward_type']
     tags:
       - { name: event_subscriber }
 
