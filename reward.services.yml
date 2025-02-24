@@ -11,4 +11,4 @@ services:
 
   reward.claim:
     class: Drupal\reward\ClaimManager
-    arguments: ['@entity_type.manager', '@account.finance_manager']
+    arguments: ['@entity_type.manager', '@account.finance_manager', '@lock']
