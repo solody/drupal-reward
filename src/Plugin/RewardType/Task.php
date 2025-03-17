@@ -86,12 +86,14 @@ final class Task extends RewardTypePluginBase {
   public function autoClaim(Event $event): void {
     if ($event instanceof TaskFinishedEvent) {
       foreach ($this->loadAllRewards() as $reward) {
-        if ($this->canClaim($reward, $event->getUser()) && $reward->get('auto_claim')->value) {
-          $this->claimManager->claimReward((int) $reward->id(), $event->getUid());
-        }
         $task_id = $reward->get('task_id')->target_id;
         $reward_id = $reward->id();
-        Cache::invalidateTags(["task:$task_id", 'task_list', "reward:$reward_id", 'reward_list']);
+        if ((int) $event->getTaskId() === (int) $task_id) {
+          if ($this->canClaim($reward, $event->getUser()) && $reward->get('auto_claim')->value) {
+            $this->claimManager->claimReward((int) $reward->id(), $event->getUid());
+          }
+          Cache::invalidateTags(["task:$task_id", 'task_list', "reward:$reward_id", 'reward_list']);
+        }
       }
     }
   }
