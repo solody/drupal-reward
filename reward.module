@@ -72,6 +72,23 @@ function reward_entity_base_field_info(EntityTypeInterface $entity_type) {
   return $fields;
 }
 
+function reward_entity_base_field_info_alter(&$fields, \Drupal\Core\Entity\EntityTypeInterface $entity_type) {
+  // Alter the my_module_text field to use a custom class.
+  if ($entity_type->id() == 'ledger' && !empty($fields['source'])) {
+    /** @var BaseFieldDefinition $field */
+    $field = $fields['source'];
+    $settings = $field->getSettings();
+    $settings['entity_type_ids'] = ['reward_claim' => 'reward_claim'] + $settings['entity_type_ids'];
+    $settings['reward_claim'] = [
+      'handler' => "default:reward_claim",
+      'handler_settings' => [
+        'target_bundles' => NULL,
+      ],
+    ];
+    $field->setSettings($settings);
+  }
+}
+
 /**
  * Prepares variables for reward templates.
  *
