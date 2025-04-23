@@ -10,7 +10,9 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\account\FinanceManagerInterface;
 use Drupal\Core\Lock\LockBackendInterface;
 use Drupal\reward\Entity\Reward;
+use Drupal\reward\Event\RewardClaimedEvent;
 use Drupal\user\Entity\User;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * {@inheritdoc}
@@ -26,6 +28,7 @@ class ClaimManager implements ClaimManagerInterface {
     private readonly EntityTypeManagerInterface $entityTypeManager,
     private readonly FinanceManagerInterface $financeManager,
     private LockBackendInterface $lock,
+    private EventDispatcherInterface $eventDispatcher,
   ) {}
 
   /**
@@ -61,7 +64,7 @@ class ClaimManager implements ClaimManagerInterface {
         $reward_id = $reward->id();
         $task_id = $reward->get('task_id')->target_id;
 
-        $this->financeManager->createLedger(
+        $ledger = $this->financeManager->createLedger(
           $account,
           LedgerInterface::AMOUNT_TYPE_DEBIT,
           $reward->getAmount(),
@@ -71,6 +74,11 @@ class ClaimManager implements ClaimManagerInterface {
 
         // Invalidate the cache.
         Cache::invalidateTags(["task:$task_id", 'task_list', "reward:$reward_id", 'reward_list']);
+
+        $this->eventDispatcher->dispatch(
+          new RewardClaimedEvent($claim, $ledger),
+          RewardClaimedEvent::EVENT_NAME
+        );
 
         return $claim;
       }
