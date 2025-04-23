@@ -68,7 +68,7 @@ class ClaimManager implements ClaimManagerInterface {
           $account,
           LedgerInterface::AMOUNT_TYPE_DEBIT,
           $reward->getAmount(),
-          "Reward $reward_id got when task $task_id finished",
+          "Task {$reward->get('task_id')->entity->label()} finished, get reward {$reward->label()}",
           $claim
         );
 
