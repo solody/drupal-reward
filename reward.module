@@ -9,6 +9,9 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Render\Element;
+use Drupal\reward\ClaimInfoList;
+use Drupal\reward\RewardClaimItemList;
+use Drupal\reward\RewardItemList;
 use Drupal\user\UserInterface;
 
 /**
@@ -32,7 +35,7 @@ function reward_entity_base_field_info(EntityTypeInterface $entity_type) {
       ->setLabel(t('Rewards belongs to the task.'))
       ->setComputed(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
-      ->setClass('\Drupal\reward\RewardItemList')
+      ->setClass(RewardItemList::class)
       ->setSetting('target_type', 'reward')
       ->setSetting('handler', 'default')
       ->setDisplayConfigurable('view', TRUE)
@@ -48,7 +51,7 @@ function reward_entity_base_field_info(EntityTypeInterface $entity_type) {
       ->setLabel(t('Claims of this reward.'))
       ->setComputed(TRUE)
       ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
-      ->setClass('\Drupal\reward\RewardClaimItemList')
+      ->setClass(RewardClaimItemList::class)
       ->setSetting('target_type', 'reward_claim')
       ->setSetting('handler', 'default')
       ->setDisplayConfigurable('view', TRUE)
@@ -61,7 +64,7 @@ function reward_entity_base_field_info(EntityTypeInterface $entity_type) {
       ->setName('Claim info')
       ->setLabel(t('Claim info of the reward for current user'))
       ->setComputed(TRUE)
-      ->setClass('\Drupal\reward\ClaimInfoList')
+      ->setClass(ClaimInfoList::class)
       ->setCardinality(1) // You only need this if your computed field is multi-value.
       ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('view', [
