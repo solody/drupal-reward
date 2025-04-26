@@ -7,3 +7,5 @@ dependencies:
   - task:task
   - account:account
   - commerce:commerce_price
+'interface translation project': reward
+'interface translation server pattern': translations/%project.%language.po

@@ -47,12 +47,12 @@ use Drupal\user\EntityOwnerTrait;
  *     "owner" = "uid",
  *   },
  *   links = {
- *     "collection" = "/admin/content/claim",
- *     "add-form" = "/admin/reward/reward-claim/add",
- *     "canonical" = "/admin/reward/reward-claim/{reward_claim}",
- *     "edit-form" = "/admin/reward/reward-claim/{reward_claim}/edit",
- *     "delete-form" = "/admin/reward/reward-claim/{reward_claim}/delete",
- *     "delete-multiple-form" = "/admin/content/claim/delete-multiple",
+ *     "collection" = "/admin/finance/reward-claim",
+ *     "add-form" = "/admin/finance/reward-claim/add",
+ *     "canonical" = "/admin/finance/reward-claim/{reward_claim}",
+ *     "edit-form" = "/admin/finance/reward-claim/{reward_claim}/edit",
+ *     "delete-form" = "/admin/finance/reward-claim/{reward_claim}/delete",
+ *     "delete-multiple-form" = "/admin/finance/reward-claim/delete-multiple",
  *   },
  * )
  */

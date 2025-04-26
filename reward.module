@@ -177,3 +177,15 @@ function reward_user_predelete(UserInterface $account): void {
     $storage->loadMultiple($reward_claim_ids)
   );
 }
+
+/**
+ * Implements hook_locale_translation_projects_alter()
+ * to alter correct the translation file path.
+ *
+ * @param $projects
+ *
+ * @return void
+ */
+function reward_locale_translation_projects_alter(&$projects) {
+  $projects['reward']['info']['interface translation server pattern'] = __DIR__ . '/' . $projects['reward']['info']['interface translation server pattern'];
+}
