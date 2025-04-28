@@ -18,7 +18,6 @@ entity.reward.delete_form:
 entity.reward.collection:
   title: 'Rewards'
   route_name: entity.reward.collection
-  base_route: system.admin_content
   weight: 10
 
 entity.reward_claim.view:
@@ -37,5 +36,4 @@ entity.reward_claim.delete_form:
 entity.reward_claim.collection:
   title: 'Reward claims'
   route_name: entity.reward_claim.collection
-  base_route: system.admin_content
   weight: 10
