@@ -68,7 +68,7 @@ final class ClaimInfoItem extends MapItem {
           $task_type_plugin_manager = \Drupal::service('plugin.manager.task_type');
           /** @var \Drupal\task\TaskTypeInterface $plugin */
           $plugin = $task_type_plugin_manager->createInstance($task->bundle());
-          $progress = $plugin->getProgress((int) \Drupal::currentUser()->id(), (int) $task->id());
+          $progress = $plugin->getProgress((int) \Drupal::currentUser()->id(), $task);
           $can_be_claimed = $progress['current_goal'] >= $reward->get('task_goal')->value;
 
           // Check is there any reward_claim entities
