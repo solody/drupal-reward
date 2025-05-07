@@ -6,7 +6,7 @@ namespace Drupal\reward\EventSubscriber;
 
 use Drupal\reward\RewardTypePluginManager;
 use Drupal\task\Event\TaskEvents;
-use Drupal\task\Event\TaskFinishedEvent;
+use Drupal\task\Event\TaskGoalAddedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -24,7 +24,7 @@ class RewardSubscriber implements EventSubscriberInterface {
   /**
    * Automatically claim the reward when corresponding task has been finished.
    */
-  public function onTaskFinished(TaskFinishedEvent $event): void {
+  public function onTaskGoalAdded(TaskGoalAddedEvent $event): void {
     // Process every task reward.
     /** @var \Drupal\reward\Plugin\RewardType\Task $plugin */
     $plugin = $this->rewardTypePluginManager->createInstance('task');
@@ -36,7 +36,7 @@ class RewardSubscriber implements EventSubscriberInterface {
    */
   public static function getSubscribedEvents(): array {
     return [
-      TaskEvents::TASK_FINISHED => ['onTaskFinished'],
+      TaskEvents::TASK_GOAL_ADDED => ['onTaskGoalAdded'],
     ];
   }
 

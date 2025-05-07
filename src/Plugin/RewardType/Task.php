@@ -13,7 +13,7 @@ use Drupal\entity\BundleFieldDefinition;
 use Drupal\reward\Attribute\RewardType;
 use Drupal\reward\RewardInterface;
 use Drupal\reward\RewardTypePluginBase;
-use Drupal\task\Event\TaskFinishedEvent;
+use Drupal\task\Event\TaskGoalAddedEvent;
 
 /**
  * Plugin implementation of the reward_type.
@@ -84,7 +84,7 @@ final class Task extends RewardTypePluginBase {
    * {@inheritdoc}
    */
   public function autoClaim(Event $event): void {
-    if ($event instanceof TaskFinishedEvent) {
+    if ($event instanceof TaskGoalAddedEvent) {
       foreach ($this->loadAllRewards() as $reward) {
         $task_id = $reward->get('task_id')->target_id;
         $reward_id = $reward->id();
