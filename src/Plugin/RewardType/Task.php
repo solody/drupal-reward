@@ -77,7 +77,7 @@ final class Task extends RewardTypePluginBase {
     /** @var \Drupal\task\TaskInterface $task */
     $task = $reward->get('task_id')->entity;
     $progress = $task->getTaskTypePlugin()->getProgress((int) $user->id(), $task);
-    return $reward->get('task_goal')->value >= $progress['current_goal'];
+    return $progress['current_goal'] >= $reward->get('task_goal')->value;
   }
 
   /**

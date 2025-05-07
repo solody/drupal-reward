@@ -12,6 +12,7 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\reward\RewardInterface;
 use Drupal\reward\RewardTypeInterface;
+use Drupal\task\TaskInterface;
 use Drupal\user\EntityOwnerTrait;
 
 /**
@@ -92,6 +93,21 @@ final class Reward extends ContentEntityBase implements RewardInterface {
     if (!$this->getOwnerId()) {
       // If no owner has been set explicitly, make the anonymous user the owner.
       $this->setOwnerId(0);
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function postLoad(EntityStorageInterface $storage, array &$entities) {
+    /** @var \Drupal\reward\RewardInterface $entity */
+    foreach ($entities as $entity) {
+      if ($entity->hasField('task_id')) {
+        $task = $entity->get('task_id')->entity;
+        if ($task instanceof TaskInterface) {
+          $entity->addCacheableDependency($task);
+        }
+      }
     }
   }
 
