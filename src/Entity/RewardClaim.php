@@ -63,6 +63,13 @@ final class RewardClaim extends ContentEntityBase implements RewardClaimInterfac
   /**
    * {@inheritdoc}
    */
+  public function label() {
+    return 'Reward claim ' . $this->id();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function preSave(EntityStorageInterface $storage): void {
     parent::preSave($storage);
     if (!$this->getOwnerId()) {
